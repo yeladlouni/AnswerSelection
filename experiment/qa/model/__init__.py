@@ -70,12 +70,12 @@ class QAModel(Model):
         self.loss = tf.reduce_mean(self.loss_individual) + reg
         self.predict = self.similarity_question_answer_good
 
-        tf.scalar_summary('Loss', self.loss)
+        tf.summary.scalar('Loss', self.loss)
 
     @property
     def summary(self):
         if self.__summary is None:
-            self.__summary = tf.merge_all_summaries(key='summaries')
+            self.__summary = tf.summary.merge_all(key='summaries')
         return self.__summary
 
 
@@ -93,8 +93,8 @@ def bias_variable(name, shape, value=0.1):
 
 def cosine_similarity(a, b):
     return tf.div(
-        tf.reduce_sum(tf.mul(a, b), 1),
-        tf.mul(
+        tf.reduce_sum(tf.multiply(a, b), 1),
+        tf.multiply(
             tf.sqrt(tf.reduce_sum(tf.square(a), 1)),
             tf.sqrt(tf.reduce_sum(tf.square(b), 1))
         )
@@ -123,7 +123,7 @@ def hinge_loss(similarity_good_tensor, similarity_bad_tensor, margin):
     return tf.maximum(
         0.0,
         tf.add(
-            tf.sub(
+            tf.subtract(
                 margin,
                 similarity_good_tensor
             ),

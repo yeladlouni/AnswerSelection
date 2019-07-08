@@ -1,32 +1,31 @@
-data-module: experiment.qa.data.wikiqa.wikiqa
-model-module: experiment.qa.model.cnn
+data-module: experiment.qa.data.semeval.semeval
+model-module: experiment.qa.model.lstm
 training-module: experiment.qa.train.training_dynamic
 evaluation-module: experiment.qa.evaluation.evaluation
 
 logger:
   level: DEBUG
-  path: logs/wikiqa-cnn.txt
+  path: logs/wikiqa-lstm.txt
 
 global:
   question_length: 22
   answer_length: 200
-  embedding_size: 300
+  embedding_size: 100
 
 data:
   lowercased: false
-  embeddings_path: data/glove.840B.300d.txt
-  wikiqa: data/WikiQACorpus
+  embeddings_path: data/fasttext.webteb.100d.vec
+  semeval: data/Semeval
   map_oov: true
   map_numbers: false
 
 model:
-  filters: 600
-  filter_size: 3
-  margin: 0.5
+  lstm_cell_size: 200
+  margin: 0.2
   trainable_embeddings: true
 
 training:
-  save_folder: checkpoints/wikiqa-cnn
+  save_folder: checkpoints/wikiqa-lstm
   epochs: 100
   early_stopping_patience: 4
 
